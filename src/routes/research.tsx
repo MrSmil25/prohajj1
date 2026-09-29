@@ -11,6 +11,8 @@ const INSIGHTS = [
   { title: { id: "Tipe Kreator Tepercaya", en: "Trusted Creator Type" }, rows: [["Finance creator", 34], ["Religious educator", 29], ["Everyday micro-creator", 24], ["Celebrity", 13]] },
   { title: { id: "Alasan Percaya Kreator", en: "Reasons for Creator Trust" }, rows: [["Transparent progress", 38], ["Relatable life stage", 31], ["Religious credibility", 20], ["Popularity", 11]] },
   { title: { id: "Wilayah Kampanye Favorit", en: "Preferred Campaign Territory" }, rows: [["STEP for Parents", 27], ["30 Days Closer", 21], ["Hajj Together", 17], ["My First STEP", 15], ["Every Purchase Counts", 12], ["Creator Journey", 8]] },
+  { title: { id: "Preferensi Kreator (kandidat konsep riset)", en: "Creator Preference (research concept candidates)" }, rows: [["Fadil Jaidi", 22], ["Habib Ja'far", 19], ["Fellexandro Ruby", 14], ["Felicia Putri Tjiasaka", 11], ["Raditya Dika", 9], ["Prita Ghozie", 8], ["Other / smaller relatable creators", 10], ["No influencer preferred", 7]] },
+  { title: { id: "Alasan Memilih Kreator", en: "Why Respondents Chose a Creator" }, rows: [["Relatable", 31], ["Doesn't feel like advertising", 27], ["Easy to understand", 24], ["Credible", 22], ["Family-oriented", 19], ["Religious relevance", 17], ["Entertaining", 15], ["Financial expertise", 13]] },
 ] as const;
 
 export const Route = createFileRoute("/research")({
