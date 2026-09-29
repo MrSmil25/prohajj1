@@ -3,6 +3,7 @@ import { ArrowRight, Coins, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { AppShell } from "@/components/AppShell";
 import { StepStoriesRail } from "@/components/CreatorJourney";
+import { StepVoices } from "@/components/StepVoices";
 import { useJourney } from "@/context/journey";
 import { useI18n } from "@/context/i18n";
 import { CREATORS } from "@/lib/campaigns";
@@ -138,6 +139,10 @@ function CampaignsPage() {
 
       <div className="mt-8">
         <StepStoriesRail creators={CREATORS} />
+      </div>
+
+      <div className="mt-10">
+        <StepVoices />
       </div>
     </AppShell>
   );

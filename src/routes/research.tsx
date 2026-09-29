@@ -133,6 +133,7 @@ function ResearchPage() {
               </div>
             ))}
           </div>
+          <p className="mt-3 text-[11px] text-muted-foreground">{pick({ id: "Nama kreator adalah referensi riset & kandidat konsep, bukan mitra atau endorsement Aladin.", en: "Creator names are research references and concept candidates, not Aladin partners or endorsements." })}</p>
         </section>
 
         <Link to="/home" className="mt-8 inline-block text-xs font-bold text-muted-foreground hover:text-primary">{t("research.back")}</Link>
