@@ -2,6 +2,16 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowDown, ArrowUp } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { LangSwitch, useI18n } from "@/context/i18n";
+
+// Illustrative data — replace values here once real research results arrive.
+const INSIGHTS = [
+  { title: { id: "Bahasa yang Disukai", en: "Preferred Language" }, rows: [["Bahasa Indonesia", 72], ["Campuran ID/EN", 21], ["English", 7]] },
+  { title: { id: "Platform yang Disukai", en: "Preferred Platform" }, rows: [["TikTok", 41], ["Instagram", 33], ["YouTube", 18], ["WhatsApp", 8]] },
+  { title: { id: "Tipe Kreator Tepercaya", en: "Trusted Creator Type" }, rows: [["Finance creator", 34], ["Religious educator", 29], ["Everyday micro-creator", 24], ["Celebrity", 13]] },
+  { title: { id: "Alasan Percaya Kreator", en: "Reasons for Creator Trust" }, rows: [["Transparent progress", 38], ["Relatable life stage", 31], ["Religious credibility", 20], ["Popularity", 11]] },
+  { title: { id: "Wilayah Kampanye Favorit", en: "Preferred Campaign Territory" }, rows: [["STEP for Parents", 27], ["30 Days Closer", 21], ["Hajj Together", 17], ["My First STEP", 15], ["Every Purchase Counts", 12], ["Creator Journey", 8]] },
+] as const;
 
 export const Route = createFileRoute("/research")({
   head: () => ({
@@ -31,6 +41,7 @@ const FEATURES = [
 ];
 
 function ResearchPage() {
+  const { t, pick } = useI18n();
   const [choice, setChoice] = useState<string | null>(null);
   const [order, setOrder] = useState(FEATURES);
 
@@ -45,7 +56,7 @@ function ResearchPage() {
   return (
     <div className="min-h-screen bg-background px-4 py-10 md:px-8">
       <div className="mx-auto max-w-4xl">
-        <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--emerald)]">Research Mode</p>
+        <div className="flex items-center justify-between"><p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--emerald)]">Research Mode</p><LangSwitch /></div>
         <h1 className="mt-1 text-3xl font-extrabold text-primary">Validasi Konsep STEP</h1>
         <p className="mt-2 text-sm text-muted-foreground">Demo cara konsep divalidasi dalam riset pasar. Bukan pengganti Google Forms.</p>
 
@@ -104,7 +115,27 @@ function ResearchPage() {
           </section>
         )}
 
-        <Link to="/home" className="mt-8 inline-block text-xs font-bold text-muted-foreground hover:text-primary">← Kembali ke aplikasi</Link>
+        <section className="mt-10">
+          <h2 className="text-xl font-extrabold text-primary">{pick({ id: "Dimensi Riset Kampanye", en: "Campaign Research Dimensions" })}</h2>
+          <p className="mt-1 inline-block rounded-full bg-[var(--emerald-soft)] px-3 py-1 text-[11px] font-bold text-primary">Illustrative data — awaiting research results.</p>
+          <div className="mt-4 grid gap-4 md:grid-cols-2">
+            {INSIGHTS.map((g) => (
+              <div key={g.title.en} className="surface-card p-5">
+                <h3 className="text-sm font-extrabold text-primary">{pick(g.title)}</h3>
+                <ul className="mt-3 space-y-2.5">
+                  {g.rows.map(([label, v]) => (
+                    <li key={label}>
+                      <div className="flex justify-between text-xs"><span className="text-muted-foreground">{label}</span><span className="font-bold text-primary">{v}%</span></div>
+                      <div className="mt-1 h-1.5 rounded-full bg-secondary"><div className="h-full rounded-full bg-[var(--emerald)] opacity-70" style={{ width: `${v}%` }} /></div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <Link to="/home" className="mt-8 inline-block text-xs font-bold text-muted-foreground hover:text-primary">{t("research.back")}</Link>
       </div>
     </div>
   );

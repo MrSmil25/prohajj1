@@ -29,6 +29,7 @@ export const Route = createFileRoute("/profile")({
 
 function ProfilePage() {
   const { goal, savings, monthly, milesTotal, roundUp } = useJourney();
+  const { t, pick } = useI18n();
 
   return (
     <AppShell>
