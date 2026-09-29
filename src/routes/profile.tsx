@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronRight } from "lucide-react";
 import { AppShell, PageHeader } from "@/components/AppShell";
+import { LangSwitch, useI18n } from "@/context/i18n";
 import { SavingSimulator } from "@/components/SavingSimulator";
 import { RoundUpModal } from "@/components/RoundUpModal";
 import { useJourney } from "@/context/journey";
@@ -31,7 +32,14 @@ function ProfilePage() {
 
   return (
     <AppShell>
-      <PageHeader title="Profile" subtitle="Your plan, your pace." />
+      <PageHeader title={pick({ id: "Profil", en: "Profile" })} subtitle={pick({ id: "Rencanamu, ritmemu.", en: "Your plan, your pace." })} />
+      <section className="surface-card mb-5 flex items-center justify-between gap-3 p-5">
+        <div>
+          <p className="text-sm font-bold text-primary">{t("profile.lang")}</p>
+          <p className="text-xs text-muted-foreground">Bahasa Indonesia · English</p>
+        </div>
+        <LangSwitch />
+      </section>
 
       <div className="grid gap-5 lg:grid-cols-[1fr_360px] lg:items-start">
         <div className="space-y-5">

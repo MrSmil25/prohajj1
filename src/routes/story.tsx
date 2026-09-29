@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { StepWordmark } from "@/components/AppShell";
+import { LangSwitch } from "@/context/i18n";
 import { HumanStoryCard } from "@/components/HumanStoryCard";
 import groceries from "@/assets/story-groceries.jpg";
 import mother from "@/assets/story-mother.jpg";

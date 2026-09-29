@@ -1,26 +1,28 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Footprints, Home, Map, Sparkles, Trophy, User, Users } from "lucide-react";
+import { Footprints, Home, Map, Megaphone, Sparkles, Trophy, User, Users } from "lucide-react";
+import { LangSwitch, useI18n, type TKey } from "@/context/i18n";
 import type { ReactNode } from "react";
 import { TransactionSimulation } from "@/components/TransactionSimulation";
 import { QuickActionSheet } from "@/components/QuickActionSheet";
 
 const MOBILE_LEFT = [
-  { to: "/home", label: "Beranda", icon: Home },
+  { to: "/home", label: "nav.home", icon: Home },
   { to: "/step", label: "STEP", icon: Footprints },
 ] as const;
 const MOBILE_RIGHT = [
-  { to: "/earn", label: "Miles", icon: Sparkles },
-  { to: "/family", label: "Bersama", icon: Users },
+  { to: "/campaigns", label: "nav.campaigns", icon: Megaphone },
+  { to: "/family", label: "nav.together", icon: Users },
 ] as const;
 
 const DESKTOP = [
-  { to: "/home", label: "Beranda", icon: Home },
+  { to: "/home", label: "nav.home", icon: Home },
   { to: "/step", label: "STEP", icon: Footprints },
-  { to: "/journey", label: "Journey", icon: Map },
+  { to: "/journey", label: "nav.journey", icon: Map },
   { to: "/earn", label: "Hajj Miles", icon: Sparkles },
-  { to: "/family", label: "Bersama", icon: Users },
-  { to: "/challenges", label: "Tantangan", icon: Trophy },
-  { to: "/profile", label: "Profil", icon: User },
+  { to: "/campaigns", label: "nav.campaigns", icon: Megaphone },
+  { to: "/family", label: "nav.together", icon: Users },
+  { to: "/challenges", label: "nav.challenges", icon: Trophy },
+  { to: "/profile", label: "nav.profile", icon: User },
 ] as const;
 
 export function StepWordmark({ light = false }: { light?: boolean }) {
@@ -38,6 +40,8 @@ export function StepWordmark({ light = false }: { light?: boolean }) {
 
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { t } = useI18n();
+  const L = (k: string) => (k.startsWith("nav.") ? t(k as TKey) : k);
 
   const MobileItem = ({ to, label, icon: Icon }: { to: string; label: string; icon: typeof Home }) => {
     const active = pathname === to;
@@ -49,7 +53,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         }`}
       >
         <Icon className="size-5" strokeWidth={active ? 2.2 : 1.7} />
-        {label}
+        {L(label)}
       </Link>
     );
   };
@@ -61,7 +65,8 @@ export function AppShell({ children }: { children: ReactNode }) {
           <div className="sticky top-10 space-y-8">
             <div>
               <StepWordmark />
-              <p className="mt-2 text-xs text-muted-foreground">Satu Langkah, Lebih Dekat.</p>
+              <p className="mt-2 text-xs text-muted-foreground">{t("brand.tagline")}</p>
+              <LangSwitch className="mt-3" />
             </div>
             <nav className="space-y-1">
               {DESKTOP.map(({ to, label, icon: Icon }) => {
@@ -77,7 +82,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                     }`}
                   >
                     <Icon className="size-[18px] shrink-0" strokeWidth={1.8} />
-                    <span className="truncate">{label}</span>
+                    <span className="truncate">{L(label)}</span>
                   </Link>
                 );
               })}
