@@ -8,3 +8,4 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+- i18n: all UI copy via useI18n() t()/pick() from src/context/i18n.tsx (ID default, persisted in localStorage); brand names never translated.

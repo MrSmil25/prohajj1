@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { StepWordmark } from "@/components/AppShell";
+import { LangSwitch } from "@/context/i18n";
 import { HumanStoryCard } from "@/components/HumanStoryCard";
 import groceries from "@/assets/story-groceries.jpg";
 import mother from "@/assets/story-mother.jpg";
@@ -71,6 +72,7 @@ function StoryPage() {
 
   return (
     <div className="h-screen snap-y snap-mandatory overflow-y-auto bg-navy-deep text-white [scroll-behavior:smooth]">
+      <div className="fixed right-4 top-4 z-50"><LangSwitch light /></div>
       <Scene>
         <div className="geo-pattern pointer-events-none absolute inset-0 opacity-30" />
         <div className="relative max-w-3xl text-center rise-in">

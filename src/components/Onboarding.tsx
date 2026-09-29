@@ -1,3 +1,4 @@
+import { LangSwitch } from "@/context/i18n";
 import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
@@ -27,6 +28,7 @@ export function Onboarding() {
           <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-white/70">
             STEP by Aladin
           </p>
+          <LangSwitch light className="ml-auto" />
         </div>
 
         <div className="mt-8 flex gap-1.5">

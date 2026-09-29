@@ -5,6 +5,9 @@ import { AppShell } from "@/components/AppShell";
 import { JourneyProgress } from "@/components/JourneyProgress";
 import { HajjMilesCard } from "@/components/HajjMilesCard";
 import { useJourney } from "@/context/journey";
+import { LangSwitch, useI18n } from "@/context/i18n";
+import { StepStoriesRail } from "@/components/CreatorJourney";
+import { CREATORS } from "@/lib/campaigns";
 import { projectMilestone, rupiah } from "@/lib/format";
 
 export const Route = createFileRoute("/home")({
@@ -29,6 +32,7 @@ const TODAY = [
 
 function HomePage() {
   const { activity, savings, monthly, addSaving } = useJourney();
+  const { t, pick } = useI18n();
   const base = projectMilestone(savings, monthly);
   const boosted = projectMilestone(savings, monthly + 80_000);
   const sooner = base.months - boosted.months;
@@ -38,11 +42,12 @@ function HomePage() {
       <header className="mb-6 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4">
         <div className="min-w-0">
           <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground md:hidden">S.T.E.P. by Aladin</p>
-          <h1 className="truncate text-xl font-extrabold tracking-tight text-primary md:text-2xl">Good morning, Rasyid.</h1>
-          <p className="text-sm text-muted-foreground">Setiap hari bisa jadi satu langkah.</p>
+          <h1 className="truncate text-xl font-extrabold tracking-tight text-primary md:text-2xl">{t("home.greeting")}</h1>
+          <p className="text-sm text-muted-foreground">{t("home.sub")}</p>
         </div>
         <div className="flex shrink-0 items-center gap-2">
-          <button onClick={() => toast("Belum ada notifikasi baru.")} className="grid size-10 place-items-center rounded-full border border-border bg-card text-primary">
+          <LangSwitch className="md:hidden" />
+          <button onClick={() => toast(t("home.noNotif"))} className="grid size-10 place-items-center rounded-full border border-border bg-card text-primary">
             <Bell className="size-[18px]" strokeWidth={1.8} />
           </button>
           <Link to="/profile" className="grid size-10 place-items-center rounded-full bg-primary text-xs font-bold text-primary-foreground">RA</Link>
@@ -54,8 +59,8 @@ function HomePage() {
           <JourneyProgress />
 
           <section className="surface-card p-5">
-            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--emerald)]">Today's Step</p>
-            <h2 className="mt-1 text-base font-extrabold text-primary">3 langkah hari ini</h2>
+            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--emerald)]">{t("home.today")}</p>
+            <h2 className="mt-1 text-base font-extrabold text-primary">{t("home.todayTitle")}</h2>
             <ul className="mt-4 space-y-3">
               {TODAY.map(({ t, v, icon: Icon, cyan }) => (
                 <li key={t} className="flex items-center gap-3">
@@ -69,12 +74,12 @@ function HomePage() {
             </ul>
             <button
               onClick={() => {
-                addSaving(50_000, "Nabung Sekarang", `+${rupiah(50_000)}`);
-                toast.success(`${rupiah(50_000)} — satu langkah lebih dekat.`);
+                addSaving(50_000, t("save.now"), `+${rupiah(50_000)}`);
+                toast.success(`${rupiah(50_000)} — ${t("home.closer")}`);
               }}
               className="mt-5 w-full rounded-full bg-primary py-3 text-sm font-bold text-primary-foreground transition-transform hover:-translate-y-0.5"
             >
-              Ambil Langkah Berikutnya
+              {t("home.next")}
             </button>
           </section>
         </div>
@@ -83,16 +88,19 @@ function HomePage() {
           <HajjMilesCard />
 
           <section className="surface-card border-l-4 border-l-[var(--emerald)] p-5">
-            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-muted-foreground">Smart Simulation</p>
-            <h2 className="mt-1 text-base font-extrabold text-primary">Sampai lebih cepat.</h2>
+            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-muted-foreground">{t("home.simEyebrow")}</p>
+            <h2 className="mt-1 text-base font-extrabold text-primary">{t("home.simTitle")}</h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              Tambah Auto Save {rupiah(20_000)}/minggu dan capai target {rupiah(25_000_000)} sekitar {Math.max(sooner, 1)} bulan lebih awal.
+              {pick({
+                id: `Tambah Auto Save ${rupiah(20_000)}/minggu dan capai target ${rupiah(25_000_000)} sekitar ${Math.max(sooner, 1)} bulan lebih awal.`,
+                en: `Add ${rupiah(20_000)}/week Auto Save and reach your ${rupiah(25_000_000)} goal about ${Math.max(sooner, 1)} months sooner.`,
+              })}
             </p>
-            <Link to="/journey" className="mt-4 inline-flex rounded-full bg-primary px-4 py-2 text-xs font-bold text-primary-foreground">Lihat Simulasi</Link>
+            <Link to="/journey" className="mt-4 inline-flex rounded-full bg-primary px-4 py-2 text-xs font-bold text-primary-foreground">{t("home.simCta")}</Link>
           </section>
 
           <section className="surface-card p-5">
-            <h2 className="text-base font-extrabold text-primary">Aktivitas terakhir</h2>
+            <h2 className="text-base font-extrabold text-primary">{t("home.activity")}</h2>
             <ul className="mt-4 space-y-3">
               {activity.slice(0, 4).map((a) => (
                 <li key={a.id} className="flex items-center gap-3 rise-in">
@@ -104,8 +112,12 @@ function HomePage() {
             </ul>
           </section>
 
-          <Link to="/story" className="block text-center text-xs font-bold text-muted-foreground hover:text-primary">Tonton kisah STEP →</Link>
+          <Link to="/story" className="block text-center text-xs font-bold text-muted-foreground hover:text-primary">{t("home.watch")}</Link>
         </div>
+      </div>
+
+      <div className="mt-8">
+        <StepStoriesRail creators={CREATORS} />
       </div>
     </AppShell>
   );
